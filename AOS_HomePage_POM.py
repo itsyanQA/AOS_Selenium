@@ -210,7 +210,7 @@ class HomePage:
         '''Waits until the element of the user name disappears.'''
         self.wait.until(EC.invisibility_of_element((By.XPATH, "//a[@class='img']/span[@data-ng-show='userCookie.response']")))
 
-    def homepage_logo(self):
-        '''Waits until the account delete confirmation pop up window closes'''
-        self.wait.until(EC.visibility_of_element_located((By.XPATH, "//div/a[@href='#/'][@role='link']")))
+    def wait_until_pop_up_goes_away(self):
+        '''Wait until the delete account pop-up window disappears'''
+        self.wait.until(EC.invisibility_of_element_located((By.CLASS_NAME, "PopUp")))
 

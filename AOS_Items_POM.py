@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 class Items:
     def __init__(self, driver:webdriver.Chrome):
         self.driver = driver
-        self.wait = WebDriverWait(self.driver, 50)
+        self.wait = WebDriverWait(self.driver, 10)
 
     def product_price(self):
         '''Returns the price element'''

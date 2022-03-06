@@ -8,7 +8,7 @@ from selenium.common.exceptions import *
 class HomePage:
     def __init__(self, driver:webdriver.Chrome):
         self.driver = driver
-        self.wait = WebDriverWait(self.driver, 50)
+        self.wait = WebDriverWait(self.driver, 10)
 
     def speakers(self):
         '''This function returns the speakers element'''

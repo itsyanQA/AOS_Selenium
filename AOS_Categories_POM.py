@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 class Categories:
     def __init__(self, driver: webdriver.Chrome):
         self.driver = driver
-        self.wait = WebDriverWait(self.driver, 50)
+        self.wait = WebDriverWait(self.driver, 10)
 
 # =============================Actions================================
     def speakers_items(self, index):

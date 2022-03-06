@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 class My_Orders:
     def __init__(self, driver:webdriver.Chrome):
         self.driver = driver
-        self.wait = WebDriverWait(self.driver, 50)
+        self.wait = WebDriverWait(self.driver, 10)
 
     def my_orders_product_name(self, row):
         '''Returns the product name in the my orders page'''

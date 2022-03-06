@@ -8,7 +8,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 class Cart_Page:
     def __init__(self, driver: webdriver.Chrome):
         self.driver = driver
-        self.wait = WebDriverWait(self.driver, 50)
+        self.wait = WebDriverWait(self.driver, 10)
         self.action = ActionChains(self.driver)
 
     def shopping_cart_top_left(self):
@@ -70,3 +70,4 @@ class Cart_Page:
         '''Gets a row as param, returns the product price according to the row specified'''
         price = self.driver.find_elements(By.XPATH, "//td[@class='smollCell']/p")
         return price[row].text
+

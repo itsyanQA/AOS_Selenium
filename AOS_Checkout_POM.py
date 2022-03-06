@@ -11,7 +11,7 @@ from time import sleep
 class Checkout:
     def __init__(self, driver: webdriver.Chrome):
         self.driver = driver
-        self.wait = WebDriverWait(self.driver, 90)
+        self.wait = WebDriverWait(self.driver, 15)
         self.action = ActionChains(self.driver)
         self.homepage = HomePage(self.driver)
 

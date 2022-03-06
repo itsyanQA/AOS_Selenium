@@ -9,7 +9,7 @@ from selenium.common.exceptions import *
 class Cart_Window:
     def __init__(self, driver: webdriver.Chrome):
         self.driver = driver
-        self.wait = WebDriverWait(self.driver, 50)
+        self.wait = WebDriverWait(self.driver, 10)
         self.action = ActionChains(self.driver)
 
     def cart_total_items_from_nav(self):

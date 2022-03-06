@@ -9,19 +9,21 @@ class My_Orders:
         self.driver = driver
         self.wait = WebDriverWait(self.driver, 50)
 
-    def my_orders_product_name(self):
+    def my_orders_product_name(self, row):
         '''Returns the product name in the my orders page'''
-        return self.driver.find_element(By.XPATH, "//tr/td/span[@class='ng-binding']")
+        name = self.driver.find_elements(By.XPATH, "//tr/td/span[@class='ng-binding']")
+        return name[row].text
 
-    def order_number(self,row):
+    def order_number(self, row):
         '''return the order number of the first order in my orders page'''
         self.general_wait()
         order = self.driver.find_elements(By.XPATH, "//tr/td[1]/label")
         return order[row].text
 
-    def delete_order(self):
-        '''return the delete order element in my orders page'''
-        return self.driver.find_element(By.CSS_SELECTOR, 'a[class="remove red ng-scope"]')
+    def delete_order(self, row):
+        '''return the delete order element in my orders page, gets specific row as param'''
+        delete = self.driver.find_elements(By.CSS_SELECTOR, 'a[class="remove red ng-scope"]')
+        return delete[row]
 
     def delete_order_confirmation(self):
         '''return the element of the delete order confirmation'''
@@ -30,3 +32,4 @@ class My_Orders:
     def general_wait(self):
         '''waiting until loading stops'''
         self.wait.until(EC.invisibility_of_element((By.XPATH, "//div[@class='loader']")))
+

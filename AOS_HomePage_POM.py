@@ -35,6 +35,16 @@ class HomePage:
         self.general_wait()
         return self.driver.find_element(By.ID, 'miceImg')
 
+    def category_clicker(self, category):
+        '''This function returns the specific category we mentioned in the parameter, we use this function in the
+        excel unittests'''
+        self.general_wait()
+        self.wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'categoryCell')))
+        categories = self.driver.find_elements(By.CLASS_NAME, 'categoryCell')
+        for i in categories:
+            if i.text == category:
+                return i
+
     def homepage_icon(self):
         '''Return the AOS logo homepage element'''
         self.general_wait()
@@ -177,6 +187,8 @@ class HomePage:
     def log_out_flow(self):
         '''This function handles the log out flow'''
         self.general_wait()
+        # we put the function in a while loop because sometimes the site is too quick and the clicks dont register,
+        # the while loop is to make sure we click on account icon and sign out.
         while True:
             try:
                 self.account_icon().click()
@@ -191,6 +203,7 @@ class HomePage:
         self.my_account().click()
         self.delete_account().click()
         self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '[class="deletePopupBtn deleteRed"]')))
+        # waiting until the confirm pop up window shows
         self.delete_account_confirmation().click()
 
 # ======================================WAITS=======================================
@@ -200,7 +213,7 @@ class HomePage:
 
     def general_wait(self):
         '''Waits until Loader (loading screen) disappears'''
-        self.wait.until(EC.invisibility_of_element((By.XPATH,"//div[@class='loader']")))
+        self.wait.until(EC.invisibility_of_element((By.XPATH, "//div[@class='loader']")))
 
     def sign_in_window_wait(self):
         '''Waits until we can see "Forgot Your Password" element'''

@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import *
 
 
 class Registration:
@@ -33,12 +34,21 @@ class Registration:
 
     def terms(self):
         '''Return the terms checkbox element'''
+        self.wait_for_terms_to_be_clickable()
         return self.driver.find_element(By.NAME, "i_agree")
 
     def register(self):
         '''Waits until register button is clickable, and then returns the register button'''
-        self.wait.until(EC.element_to_be_clickable((By.ID, 'register_btnundefined')))
-        return self.driver.find_element(By.ID, 'register_btnundefined')
+        # tries to find the register button element, if a Timeoutexception occurs, we catch that in the except block
+        try:
+            self.wait.until(EC.element_to_be_clickable((By.ID, 'register_btnundefined')))
+            return self.driver.find_element(By.ID, 'register_btnundefined')
+        # after catching the exception, we click on terms again, and return the register button element.
+        except TimeoutException:
+            self.terms().click()
+            self.wait.until(EC.element_to_be_clickable((By.ID, 'register_btnundefined')))
+            return self.driver.find_element(By.ID, 'register_btnundefined')
+
 
     def account_details(self, user, password, conf_pass, email):
         '''this flow handles user creation, it gets user,password,confirm password and email as params, and it
@@ -53,4 +63,8 @@ class Registration:
     def general_wait(self):
         '''waiting until loading stops'''
         self.wait.until(EC.invisibility_of_element((By.XPATH,"//div[@class='loader']")))
+
+    def wait_for_terms_to_be_clickable(self):
+        '''waits until the terms checkbox is clickable'''
+        self.wait.until(EC.element_to_be_clickable((By.NAME, 'i_agree')))
 

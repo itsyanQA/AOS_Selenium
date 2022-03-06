@@ -68,12 +68,14 @@ class Items:
         the price by the quantity, the function returns the result.'''
         qty = self.quantity().get_attribute('value')
         price = self.product_price()
+        # removes dollar sign and comma from price, converts them to float and multiplies the price times quantity,
+        # returns the total
         if '$' or ',' in price:
             new_price = price.replace('$', '').replace(',', '')
             total = float(new_price) * float(qty)
             return total
 
-    def format_returner(self,num1, num2, num3):
+    def format_returner(self, num1, num2, num3):
         '''Gets 3 different numbers, adding them up and returns the number with dollar sign and commas
         aids us in the test 5 comparison'''
         result = num1 + num2 + num3

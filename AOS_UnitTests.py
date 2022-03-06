@@ -15,7 +15,7 @@ class AOS_UnitTests(TestCase):
     def setUp(self):
         service_chrome = Service(r"C:\chromedriver.exe")
         self.driver = webdriver.Chrome(service=service_chrome)
-        self.driver.get("https://www.advantageonlineshopping.com/#/")
+        self.driver.get("http://www.advantageonlineshopping.com/#/")
         self.driver.maximize_window()
         # We chose high number because the site experiences high loads very often
         self.driver.implicitly_wait(50)
@@ -54,13 +54,13 @@ class AOS_UnitTests(TestCase):
         # ==============================FIRST PRODUCT====================================
         self.homepage.mice().click()
         # Click on the mice category from homepage
-        self.categories.mice_items(0)
+        self.categories.mice_items(3)
         # Click on the first item in the mice category
-        self.items.item_flow(2, 'BLACK')
+        self.items.item_flow(2, 'RED')
         # Choosing quantity of 2, with the color BLACK
         '''Asserting that the color, name, quantity and price are as expected'''
-        self.assertEqual(self.cart.cart_product_color(0), 'BLACK')
-        self.assertEqual(self.cart.cart_product_name(0), 'HP USB 3 BUTTON OPTICAL MOUSE')
+        self.assertEqual(self.cart.cart_product_color(0), 'RED')
+        self.assertEqual(self.cart.cart_product_name(0), 'HP Z4000 WIRELESS MOUSE')
         self.assertEqual(self.cart.cart_product_quantity(0), 'QTY: 2')
         self.assertEqual(self.cart.cart_product_price(0), self.cart.price_calculator(0))
         self.homepage.homepage_icon().click()
@@ -74,7 +74,7 @@ class AOS_UnitTests(TestCase):
         # Choosing quantity of 3, with the color Gray
         '''Asserting that the color, name, quantity and price are as expected'''
         self.assertEqual(self.cart.cart_product_color(0), 'GRAY')
-        self.assertEqual(self.cart.cart_product_color(1), 'BLACK')
+        self.assertEqual(self.cart.cart_product_color(1), 'RED')
         '''The elements are being stacked instead of being in a certain order, index 0 will
          always be the latest added product, test above proves it'''
         self.assertIn('BOSE SOUNDLINK BLUETOOTH', self.cart.cart_product_name(0))
@@ -165,9 +165,9 @@ class AOS_UnitTests(TestCase):
         # Click on the cart logo, proceed to cart page
         self.assertEqual(self.cart_page.total_price(), self.items.format_returner(first_product_sum, second_product_sum, third_product_sum))
         # Assert that the sum of the three variables equals to the total price in the cart page
-        print(f'First product name: {self.cart_page.product_name(0)} | Quantity:{self.cart_page.product_quantity(0)} | Price:{self.cart_page.product_price(0)}\n'
+        print(f'First product name: {self.cart_page.product_name(2)} | Quantity:{self.cart_page.product_quantity(2)} | Price:{self.cart_page.product_price(2)}\n'
               f'Second product name: {self.cart_page.product_name(1)} | Quantity:{self.cart_page.product_quantity(1)} | Price:{self.cart_page.product_price(1)}\n'
-              f'Third product name: {self.cart_page.product_name(2)} | Quantity:{self.cart_page.product_quantity(2)} | Price:{self.cart_page.product_price(2)}')
+              f'Third product name: {self.cart_page.product_name(0)} | Quantity:{self.cart_page.product_quantity(0)} | Price:{self.cart_page.product_price(0)}')
         # Print each product name, quantity and price
 
 
@@ -222,11 +222,11 @@ class AOS_UnitTests(TestCase):
         # Click on the first product in tablet category
         self.driver.back()
         # Go back
-        self.assertEqual(self.driver.current_url, 'https://www.advantageonlineshopping.com/#/category/Tablets/3')
+        self.assertEqual(self.driver.current_url, 'http://www.advantageonlineshopping.com/#/category/Tablets/3')
         # asserts that we are in tablets page
         self.driver.back()
         # Go back
-        self.assertEqual(self.driver.current_url, 'https://www.advantageonlineshopping.com/#/')
+        self.assertEqual(self.driver.current_url, 'http://www.advantageonlineshopping.com/#/')
         # asserts that we are in home page
 
     def test_8_eighth_task(self):
@@ -245,30 +245,29 @@ class AOS_UnitTests(TestCase):
         # Click on "Registration"
         self.registration.account_details('yanyan', '123123aA', '123123aA', '1@1.com')
         # Fill the fields with the proper details
-        while True:
-            try:
-                self.registration.terms().click()
-                break
-            except:
-                pass
-            # Putting the terms in a loop because the site is too quick sometimes and skips it
-            # So we wanna make sure the terms is clicked
+        self.registration.terms().click()
+        # Click on accept terms
         self.registration.register().click()
         # Click on register
         self.checkout.next_button().click()
         # Click on next
         self.checkout.safepay_flow('yanyaN123', 'ahksla2LKJ')
         # Enter safepay credentials
-        self.assertEqual(self.driver.current_url, 'https://www.advantageonlineshopping.com/#/orderPayment')
+        self.checkout.wait_for_payment_success_window()
+        # Waits until payment success window appears
+        self.assertEqual(self.driver.current_url, 'http://www.advantageonlineshopping.com/#/orderPayment')
         # Assert that the current url is the order payment invoice, checks that payment is successful
+        order_checkout_order_number = self.checkout.order_number_from_completion_page()
+        # We put a variable that takes the order number
         self.cart.small_cart_num_disappearance_wait()
         # Waits until the small number in cart disappears, and only then continues
         self.homepage.account_icon().click()
         # Click on account icon in the nav
         self.homepage.my_orders().click()
         # Click on my orders
-        self.assertEqual(len(self.orders.order_number(0)), 10)
-        # Assert that an order appears in the page, asserts that length of the element is 10.
+        self.assertEqual(self.orders.order_number(-1), order_checkout_order_number)
+        # Assert that the order number from the payment successful page matches
+        # The order number in my orders page.
         self.cart.small_cart_num_disappearance_wait()
         # Waits until the small number in cart disappears, and only then continues
         self.assertEqual(self.cart.cart_total_items_from_nav(), '0')
@@ -305,10 +304,14 @@ class AOS_UnitTests(TestCase):
         # Enter existing user credentials, and click sign in
         self.checkout.next_button().click()
         # Click on next button
-        self.checkout.master_credit_flow_uncheck_for_future_use('12345678912341234', '3423',
+        self.checkout.master_credit_flow_uncheck_for_future_use('12345678912341234', '423',
                                                                 '07', '2025', 'firstname lastname')
         # Enter the master credit credentials WITHOHUT checking the save for future option
         # Test fails because if save for future is not checked, payment wont go through.
+        self.checkout.wait_for_payment_success_window()
+        # Waits until payment success window appears
+        order_checkout_order_number = self.checkout.order_number_from_completion_page()
+        # We put a variable that takes the order number
         self.cart.small_cart_num_disappearance_wait()
         # Waits until the small number in cart disappears, and only then continues
         self.homepage.account_icon().click()
@@ -317,10 +320,11 @@ class AOS_UnitTests(TestCase):
         # Click on "My orders"
         self.assertEqual(self.cart.cart_total_items_from_nav(), '0')
         # Assert that the total items in the cart is 0 in the window page
-        self.assertEqual(len(self.orders.order_number(0)), 10)
-        # Assert that an order appears in the page, asserts that length of the element is 10.
-        self.orders.delete_order().click()
-        # Delete the order from "my orders" page
+        self.assertEqual(self.orders.order_number(-1), order_checkout_order_number)
+        # Assert that the order number from the payment successful page matches
+        # The order number in my orders page.
+        self.orders.delete_order(-1).click()
+        # Delete the most recent order from "my orders" page
         self.orders.delete_order_confirmation().click()
         # Click Yes in delete order confirmation
 
@@ -354,9 +358,13 @@ class AOS_UnitTests(TestCase):
         # Click on master credit checkbox
         self.checkout.edit_payment().click()
         # Click on edit payment information
-        self.checkout.master_credit_flow_future_use_checked('12345678912341234', '3423',
+        self.checkout.master_credit_flow_future_use_checked('12345678912341234', '423',
                                                             '07', '2025', 'firstname lastname')
         # Enter the master credit credentials WITH checking the save for future option
+        self.checkout.wait_for_payment_success_window()
+        # Waits until payment success window appears
+        order_checkout_order_number = self.checkout.order_number_from_completion_page()
+        # We put a variable that takes the order number
         self.cart.small_cart_num_disappearance_wait()
         # Waits until the small number in cart disappears, and only then continues
         self.homepage.account_icon().click()
@@ -365,10 +373,11 @@ class AOS_UnitTests(TestCase):
         # Click on "My orders"
         self.assertEqual(self.cart.cart_total_items_from_nav(), '0')
         # Assert that the total items in the cart is 0 in the window page
-        self.assertEqual(len(self.orders.order_number(0)), 10)
-        # Assert that an order appears in the page, asserts that length of the element is 10.
-        self.orders.delete_order().click()
-        # Delete the order from "my orders" page
+        self.assertEqual(self.orders.order_number(-1), order_checkout_order_number)
+        # Assert that the order number from the payment successful page matches
+        # The order number in my orders page.
+        self.orders.delete_order(-1).click()
+        # Delete the most recent order from "my orders" page
         self.orders.delete_order_confirmation().click()
         # Click Yes in delete order confirmation
 

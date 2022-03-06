@@ -1,14 +1,11 @@
-import select
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import *
 from AOS_Selenium.AOS_HomePage_POM import HomePage
+from time import sleep
 
 
 class Checkout:
@@ -99,12 +96,17 @@ class Checkout:
          plus checking "save for future use"'''
         self.master_credit_checkbox().click()
         self.card_number().send_keys(card_number)
+        # By default, the first number doesnt register properly, we clear the cvv field first, then enter
+        # the 3 digits
+        self.cvv().clear()
         self.cvv().send_keys(cvv)
         self.MM().select_by_visible_text(mm)
         self.YYYY().select_by_visible_text(yyyy)
         self.cardholder_name().clear()
+        # We need to clear the name since it is saved from last time
         self.cardholder_name().send_keys(cardholder_name)
         self.pay_now_button_credit_card().click()
+
 
     def master_credit_flow_uncheck_for_future_use(self, card_number, cvv, mm, yyyy, cardholder_name):
         '''this function handles the pay with master credit flow, it
@@ -113,6 +115,10 @@ class Checkout:
         self.master_credit_checkbox().click()
         self.card_number().send_keys(card_number)
         self.cvv().send_keys(cvv)
+        # if the cvv doesnt match the cvv we intended to, it clears the field and sends the keys again.
+        if self.cvv().get_attribute('value') != cvv:
+            self.cvv().clear()
+            self.cvv().send_keys(cvv)
         self.MM().select_by_visible_text(mm)
         self.YYYY().select_by_visible_text(yyyy)
         self.cardholder_name().send_keys(cardholder_name)
@@ -121,8 +127,17 @@ class Checkout:
 
     # ================================CREDIT CARD METHODS ENDS HERE====================================
 
+    def order_number_from_completion_page(self):
+        '''finds the order number for payment successful page'''
+        self.general_wait()
+        return self.driver.find_element(By.ID, 'orderNumberLabel').text
+
     def general_wait(self):
         '''waiting until loading stops'''
         self.wait.until(EC.invisibility_of_element((By.XPATH, "//div[@class='loader']")))
+
+    def wait_for_payment_success_window(self):
+        '''wait until the payment successful page fully loads'''
+        self.wait.until(EC.visibility_of_element_located((By.ID, 'orderPaymentSuccess')))
 
 

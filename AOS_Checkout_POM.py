@@ -5,7 +5,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 from AOS_Selenium.AOS_HomePage_POM import HomePage
-from time import sleep
 
 
 class Checkout:

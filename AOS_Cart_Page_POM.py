@@ -27,7 +27,7 @@ class Cart_Page:
         edits = self.driver.find_elements(By.LINK_TEXT, 'EDIT')
         return edits[row]
 
-    def quantity(self,row):
+    def quantity(self, row):
         '''this function returns the quantity in the cart page, according to the row we specified'''
         qty = self.driver.find_elements(By.XPATH, "//tr[@class='ng-scope']/td/label[@class='ng-binding']")
         return qty[row].text

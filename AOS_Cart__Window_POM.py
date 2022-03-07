@@ -28,7 +28,7 @@ class Cart_Window:
         '''returns a product name according to the row we specified'''
         self.general_wait()
         self.hover()
-        name = self.driver.find_elements(By.CSS_SELECTOR,"h3[class='ng-binding']")
+        name = self.driver.find_elements(By.CSS_SELECTOR, "h3[class='ng-binding']")
         return name[row].text
 
     def cart_product_quantity(self, row):
@@ -95,10 +95,10 @@ class Cart_Window:
 
     def general_wait(self):
         '''waiting until loading stops'''
-        self.wait.until(EC.invisibility_of_element((By.XPATH,"//div[@class='loader']")))
+        self.wait.until(EC.invisibility_of_element((By.XPATH, "//div[@class='loader']")))
 
     def remove_item(self, row):
-        '''This function removes a product from the cart according to the row we specified'''
+        '''This function returns the remove button from the cart according to the row we specified'''
         self.general_wait()
         self.hover()
         x = self.driver.find_elements(By.CSS_SELECTOR, '.removeProduct')

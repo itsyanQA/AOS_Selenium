@@ -170,7 +170,6 @@ class AOS_UnitTests(TestCase):
               f'Third product name: {self.cart_page.product_name(0)} | Quantity:{self.cart_page.product_quantity(0)} | Price:{self.cart_page.product_price(0)}')
         # Print each product name, quantity and price
 
-
     def test_6_sixth_task(self):
         '''This test checks that after choosing 2 different products, and editing their quantity through the cart page,
         the changes are saved successfully.'''

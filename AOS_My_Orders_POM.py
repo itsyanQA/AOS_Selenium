@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 class My_Orders:
-    def __init__(self, driver:webdriver.Chrome):
+    def __init__(self, driver: webdriver.Chrome):
         self.driver = driver
         self.wait = WebDriverWait(self.driver, 10)
 

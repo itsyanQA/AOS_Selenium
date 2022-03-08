@@ -1,12 +1,8 @@
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
-from time import sleep
 from AOS_Selenium.AOS_HomePage_POM import HomePage
-from AOS_Categories_POM import Categories
-from AOS_Items_POM import Items
+from AOS_Selenium_Automation.AOS_Categories_POM import Categories
+from AOS_Selenium_Automation.AOS_Items_POM import Items
 from AOS_Cart_POM import Cart
 
 

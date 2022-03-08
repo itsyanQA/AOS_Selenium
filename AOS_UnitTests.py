@@ -276,7 +276,6 @@ class AOS_UnitTests(TestCase):
         self.homepage.wait_until_pop_up_goes_away()
         # Waits until the delete confirmation pop up window goes away
 
-
     def test_9_1_ninth_task_save_for_future_use_unchecked(self):
         '''This test checks that checkout process with existing user using master credit is done successfully,
         and the total items in the cart resets to zero, and the order appears in "My Orders" page.

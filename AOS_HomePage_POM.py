@@ -5,8 +5,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import *
 
+
 class HomePage:
-    def __init__(self, driver:webdriver.Chrome):
+    def __init__(self, driver: webdriver.Chrome):
         self.driver = driver
         self.wait = WebDriverWait(self.driver, 10)
 
@@ -162,8 +163,6 @@ class HomePage:
         self.help_icon().click()
         return self.driver.find_element(By.XPATH, "//div[@id='helpMiniTitle']/label[text()='Management Console']")
 
-
-
 # ======================================WORK FLOWS=======================================
     def search_items(self, search):
         '''This function searches items in the search bar, it gets an input for search as a param.'''
@@ -226,4 +225,3 @@ class HomePage:
     def wait_until_pop_up_goes_away(self):
         '''Wait until the delete account pop-up window disappears'''
         self.wait.until(EC.invisibility_of_element_located((By.CLASS_NAME, "PopUp")))
-

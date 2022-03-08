@@ -118,12 +118,3 @@ class Cart_Window:
         '''this function waits until the small number above the cart disappears,
         usually when doing a purchase'''
         self.wait.until(EC.invisibility_of_element((By.XPATH, '//li[@data-ng-mouseenter="enterCart()"][@data-ng-mouseleave="leaveCart()"]/a[@class="img"]/span')))
-
-
-
-
-
-
-
-
-

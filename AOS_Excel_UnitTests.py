@@ -1,7 +1,7 @@
 from unittest import TestCase
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from AOS_Selenium.AOS_Excel import Excel
+from AOS_Excel_Methods import Excel
 from AOS_Cart__Window_POM import Cart_Window
 from AOS_Items_POM import Items
 from AOS_Categories_POM import Categories
@@ -30,7 +30,6 @@ class AOS_UnitTests(TestCase):
         self.registration = Registration(self.driver)
         self.orders = My_Orders(self.driver)
         self.excel = Excel()
-
 
     def test_1_first_task(self):
         self.excel.fail_everything()
@@ -240,7 +239,6 @@ class AOS_UnitTests(TestCase):
         self.excel.passed_test(26, 8)
         # Put "Passed", and the color green in the specific cell
 
-
     def test_7_seventh_task(self):
         self.excel.red_fill('I26')
         # Fills the appropriate cell in the worksheet in the color red
@@ -260,7 +258,6 @@ class AOS_UnitTests(TestCase):
         # asserts that we are in home page
         self.excel.passed_test(26, 9)
         # Put "Passed", and the color green in the specific cell
-
 
     def test_8_eighth_task(self):
         self.excel.red_fill('J26')
@@ -368,7 +365,6 @@ class AOS_UnitTests(TestCase):
         self.excel.passed_test(26, 11)
         # Put "Passed", and the color green in the specific cell
 
-
     def test_9_2_ninth_task_save_for_future_use_checked(self):
         self.excel.red_fill('L26')
         # Fills the appropriate cell in the worksheet in the color red
@@ -426,7 +422,6 @@ class AOS_UnitTests(TestCase):
         self.excel.passed_test(26, 12)
         # Put "Passed", and the color green in the specific cell
 
-
     def test_tenth_task(self):
         self.excel.red_fill('M26')
         # Fills the appropriate cell in the worksheet in the color red
@@ -450,10 +445,8 @@ class AOS_UnitTests(TestCase):
         self.excel.passed_test(26, 13)
         # Put "Passed", and the color green in the specific cell
 
-
     def tearDown(self):
         '''At end of each test, we are being moved to the Home Page, and then the test quits.'''
         self.homepage.homepage_icon().click()
         print(self.driver.current_url)
         self.driver.quit()
-

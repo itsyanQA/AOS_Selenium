@@ -79,12 +79,4 @@ class Categories:
 
     def general_wait(self):
         '''waiting until loading stops'''
-        self.wait.until(EC.invisibility_of_element((By.XPATH,"//div[@class='loader']")))
-
-
-
-
-
-
-
-
+        self.wait.until(EC.invisibility_of_element((By.XPATH, "//div[@class='loader']")))

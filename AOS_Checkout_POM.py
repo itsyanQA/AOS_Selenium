@@ -4,7 +4,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
-from AOS_Selenium.AOS_HomePage_POM import HomePage
+from AOS_HomePage_POM import HomePage
 
 
 class Checkout:
@@ -106,7 +106,6 @@ class Checkout:
         self.cardholder_name().send_keys(cardholder_name)
         self.pay_now_button_credit_card().click()
 
-
     def master_credit_flow_uncheck_for_future_use(self, card_number, cvv, mm, yyyy, cardholder_name):
         '''this function handles the pay with master credit flow, it
         gets cardnumber, cvv, mm, yyyy, cardholder name as params and makes a purchase,
@@ -138,5 +137,3 @@ class Checkout:
     def wait_for_payment_success_window(self):
         '''wait until the payment successful page fully loads'''
         self.wait.until(EC.visibility_of_element_located((By.ID, 'orderPaymentSuccess')))
-
-

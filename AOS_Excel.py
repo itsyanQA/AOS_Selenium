@@ -46,12 +46,3 @@ class Excel:
             for value in cell:
                 value.value = 'failed'
                 self.wb.save(self.excel_file)
-
-
-
-
-
-
-
-
-

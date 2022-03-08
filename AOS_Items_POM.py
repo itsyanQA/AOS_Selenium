@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 class Items:
-    def __init__(self, driver:webdriver.Chrome):
+    def __init__(self, driver: webdriver.Chrome):
         self.driver = driver
         self.wait = WebDriverWait(self.driver, 10)
 
@@ -80,11 +80,3 @@ class Items:
         aids us in the test 5 comparison'''
         result = num1 + num2 + num3
         return "${:,.2f}".format(result)
-
-
-
-
-
-
-
-

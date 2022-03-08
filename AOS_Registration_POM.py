@@ -49,7 +49,6 @@ class Registration:
             self.wait.until(EC.element_to_be_clickable((By.ID, 'register_btnundefined')))
             return self.driver.find_element(By.ID, 'register_btnundefined')
 
-
     def account_details(self, user, password, conf_pass, email):
         '''this flow handles user creation, it gets user,password,confirm password and email as params, and it
         click on terms multiple times until it is checked because of site delay using a while loop.'''
@@ -59,12 +58,10 @@ class Registration:
         self.confirm_password().send_keys(conf_pass)
         self.email().send_keys(email)
 
-
     def general_wait(self):
         '''waiting until loading stops'''
-        self.wait.until(EC.invisibility_of_element((By.XPATH,"//div[@class='loader']")))
+        self.wait.until(EC.invisibility_of_element((By.XPATH, "//div[@class='loader']")))
 
     def wait_for_terms_to_be_clickable(self):
         '''waits until the terms checkbox is clickable'''
         self.wait.until(EC.element_to_be_clickable((By.NAME, 'i_agree')))
-

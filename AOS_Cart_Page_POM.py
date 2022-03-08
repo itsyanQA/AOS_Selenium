@@ -70,4 +70,3 @@ class Cart_Page:
         '''Gets a row as param, returns the product price according to the row specified'''
         price = self.driver.find_elements(By.XPATH, "//td[@class='smollCell']/p")
         return price[row].text
-
